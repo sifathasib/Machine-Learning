@@ -1,7 +1,12 @@
 import numpy as np 
-a = np.arange(6).reshape(2,3)
-b = np.arange(0,48,2).reshape(2,3,4)
-c = np.arange(10000).reshape(100,100)
-print(c)
+a = np.array([[1,2],
+              [3,4],
+              [5,6]])
 print(a)
-print(b)
+point = np.array([1,2])
+def testing(x):
+    return x*2
+
+print(testing(point))
+z = testing(a)
+print(z)
