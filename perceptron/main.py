@@ -10,23 +10,23 @@ df = pd.read_csv('D:\VS Code projects\Machine Learning\data\iris.data',header=No
 y = df.iloc[0:100,4].values  
 y = np.where(y=='Iris-setosa',1,-1)
 X = df.iloc[0:100,[0,2]].values
-print(X[:,0].min()-1)
-ppn = Perceptron(eta = 0.1,n_itr=10)
+
+ppn = Perceptron(eta = 0.01,n_itr=100)
 ppn.fit(X,y)
 
 def plot_decisions_region(X,y,classifier,resolution=0.02):
-    markers =('s','x','o','^','v')
-    colors = ('red','blue','lightgreen','gray','cyan')
+    markers= ('s','x','o','^','v')
+    colors = ('green','blue','gray','cyan')
     cmap = ListedColormap(colors[:len(np.unique(y))])
     
-    x_min , x_max = X[:,0].min()-1, X[:,0].max()+1
-    y_min,y_max = X[:,1].min()-1, X[:,1].max()+1
+    x_min,x_max = X[:,0].min()-1,X[:,0].max()+1
+    y_min,y_max = X[:,1].min()-1,X[:,1].max()+1
     xx,yy = np.meshgrid(np.arange(x_min,x_max,resolution),np.arange(y_min,y_max,resolution))
     Z = classifier.predict(np.array([xx.ravel(),yy.ravel()]).T)
-    Z = Z.reshape(xx.shape)
+    Z =Z.reshape(xx.shape)
     plt.contourf(xx,yy,Z,alpha=0.3,cmap=cmap)
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
+    plt.xlim(xx.min(),xx.max())
+    plt.ylim(yy.min(),yy.max())
     #plot class samples
     for idx, cl in enumerate(np.unique(y)):
         plt.scatter(x=X[y == cl, 0],
