@@ -24,3 +24,5 @@ class AdalineGD(object):
         return np.dot(X,self.weight[1:])+ self.weight[0]
     def activation(self,X):
         return X
+    def predict(self,X):
+        return np.where(self.activation(self.net_input(X))>= 0.0,1,-1)
