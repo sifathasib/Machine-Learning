@@ -10,7 +10,7 @@ df = pd.read_csv('D:\VS Code projects\Machine Learning\data\iris.data',header=No
 y = df.iloc[0:100,4].values  
 y = np.where(y=='Iris-setosa',1,-1)
 X = df.iloc[0:100,[0,2]].values
-
+print(len(np.unique(y)))
 def plot_decision_region(X,y,classifier,resolution=0.02):
     markers =('s','x','o','^','v')
     colors = ('red','blue','lightgreen','gray','cyan')
@@ -53,7 +53,7 @@ plt.show()
 X_std = np.copy(X)
 X_std[:,0] = (X_std[:,0]-X_std[:,0].mean())/X_std[:,0].std()
 X_std[:,1] = (X_std[:,1]-X_std[:,1].mean())/X_std[:,1].std()
-ada3 = AdalineGD(eta = 0.1,n_itr= 10).fit(X_std,y)
+ada3 = AdalineGD(eta = 0.01,n_itr= 15).fit(X_std,y)
 plot_decision_region(X_std,y,classifier=ada3)
 plt.title('adaline gradient descent')
 plt.xlabel('sepal lenght [std]')

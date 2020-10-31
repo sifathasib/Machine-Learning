@@ -1,20 +1,15 @@
 import pandas as pd  
-import matplotlib.pyplot as plt  
 import numpy as np  
-from perceptron import Perceptron
-from matplotlib.colors import ListedColormap
-df = pd.read_csv('D:\VS Code projects\Machine Learning\data\iris.data',header=None)
-#print(df[50:60])
+from AdalineSGD import AdalineSGD  
+import matplotlib.pyplot as plt  
+from matplotlib.colors import ListedColormap  
 
-# select setos and versicolor 
-y = df.iloc[0:100,4].values  
+df = pd.read_csv('D:\VS Code projects\Machine Learning\data\iris.data',header =None)
+y = df.iloc[0:100,4].values
 y = np.where(y=='Iris-setosa',1,-1)
 X = df.iloc[0:100,[0,2]].values
 
-ppn = Perceptron(eta = 0.0001,n_itr=10)
-ppn.fit(X,y)
-
-def plot_decision_region(X,y,classifier,resolution=0.002):
+def plot_decision_region(X,y,classifier,resolution=0.02):
     markers =('s','x','o','^','v')
     colors = ('red','blue','lightgreen','gray','cyan')
     cmap = ListedColormap(colors[:len(np.unique(y))])
@@ -34,24 +29,20 @@ def plot_decision_region(X,y,classifier,resolution=0.002):
                     c= colors[idx],
                     marker=markers[idx],
                     label=cl,edgecolor="black")
-    
-    
-plot_decision_region(X,y,classifier=ppn)    
-plt.xlabel('sepal length [cm]')
-plt.ylabel('petal length [cm]')
-plt.legend(loc='upper left')
+
+X_std = np.copy(X)
+X_std[:,0] = (X_std[:,0]-X_std[:,0].mean())/X_std[:,0].std()
+X_std[:,1] = (X_std[:,1]-X_std[:,1].mean())/X_std[:,1].std()
+
+ada = AdalineSGD(eta=0.01,n_itr= 15,random_state=1).fit(X_std,y)
+#ada = AdalineSGD(eta=0.01,n_itr= 15,random_state=1).partial_fit(X_std[0:30,:],y[0:30])
+plot_decision_region(X_std,y,classifier= ada)
+plt.title('adaline stochastic gradient descent')
+plt.xlabel('sepal length std')
+plt.ylabel('petal length std')
+plt.legend(loc = 'upper left')
 plt.show()
-'''plt.figure(1)
-plt.plot(range(1,len(ppn.errors_)+1),ppn.errors_,marker='o')
+plt.plot(np.arange(1,len(ada.cost_)+1),ada.cost_,marker='o')
 plt.xlabel('epochs')
-plt.ylabel('number of updates')
+plt.ylabel('Avg cost')
 plt.show()
-plt.close()
-plt.figure(2)
-plt.scatter(X[:50,0],X[:50,1],color='red',marker='x',label='setosa')
-plt.scatter(X[50:100,0],X[50:100,1],color='blue',marker='o',label='versicolor')
-plt.xlabel('sepal length [cm]')
-plt.ylabel('petal length [cm]')
-plt.legend(loc='upper left')
-plt.show()
-plt.close()'''
