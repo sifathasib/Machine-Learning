@@ -1,12 +1,8 @@
 import numpy as np 
-a = np.array([[1,2],
-              [3,4],
-              [5,6]])
-print(a)
-point = np.array([1,2])
-def testing(x):
-    return x*2
+w =[]
 
-print(testing(point))
-z = testing(a)
-print(z)
+w.append([1,2])
+w.append([3,4])
+w.append([5,6])
+w = np.array(w)
+print(w)
