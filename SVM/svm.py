@@ -16,7 +16,8 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-svm = SVC(kernel='linear',C=1.0,random_state=1)
+#svm = SVC(kernel='linear',C=1.0,random_state=1)
+svm = SVC(kernel='rbf',C=1.0,gamma=100,random_state=1)
 svm.fit(X_train_std,y_train)
 
 X_combined_std = np.vstack((X_train_std,X_test_std))
